@@ -34,6 +34,12 @@ const SPREADSHEET_ID = '13xft3MA_DqD61h1lMGIpnofi7W0zbYYUJqi4xMR2kpw';
 const SHEET_NAME = 'Onboarding CXL';
 const WEBHOOK_URL = 'https://n8nwebhook.leticiakratka.shop/webhook/cxl-form-onboarding';
 
+// Liga/desliga a chamada do webhook do n8n.
+// Mantém em `false` enquanto o workflow do n8n ainda não estiver publicado.
+// Quando o webhook estiver pronto, troca pra `true` e cria uma NOVA implantação.
+// Se ficar `true` apontando pra URL inexistente, cada submissão trava ~30s no timeout.
+const WEBHOOK_ENABLED = false;
+
 function doGet(e) {
   try {
     const p = e.parameter;
@@ -123,8 +129,10 @@ function doGet(e) {
       gclid:        p.gclid        || ''
     };
 
-    // Dispara webhook pro n8n (não bloqueia retorno se falhar)
-    dispararWebhook(dados);
+    // Dispara webhook pro n8n só se a flag estiver ligada (evita travar 30s quando URL não existe)
+    if (WEBHOOK_ENABLED) {
+      dispararWebhook(dados);
+    }
 
     return ContentService
       .createTextOutput(JSON.stringify({ status: 'ok' }))

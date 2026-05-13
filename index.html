@@ -899,20 +899,14 @@
     return new Promise(function(resolve) {
       const params = new URLSearchParams(payload).toString();
       const url = APPS_SCRIPT_URL + '?' + params;
-      const timeout = setTimeout(function() { resolve(false); }, 15000);
 
-      // mode: 'no-cors' permite envio de file:// e cross-origin.
-      // Resposta vira opaque (não dá pra ler body/status), mas a requisição chega no Apps Script normalmente.
-      // Assumimos sucesso se não houve erro de rede.
-      fetch(url, { method: 'GET', mode: 'no-cors' })
-        .then(function() {
-          clearTimeout(timeout);
-          resolve(true);
-        })
-        .catch(function() {
-          clearTimeout(timeout);
-          resolve(false);
-        });
+      // Fire-and-forget: dispara a request mas não espera a resposta do Apps Script.
+      // O Apps Script grava na planilha em background (e dispara o webhook quando estiver pronto).
+      // UX continua rápida mesmo se o backend demorar.
+      fetch(url, { method: 'GET', mode: 'no-cors' }).catch(function() {});
+
+      // Resolve em 500ms pra dar feedback visual de "enviando", sem travar.
+      setTimeout(function() { resolve(true); }, 500);
     });
   }
 
