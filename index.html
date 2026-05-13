@@ -627,7 +627,7 @@
         <p class="lead" id="lead9a">Com base nas suas respostas, faz todo sentido você falar com a Vanessa, planejadora financeira do nosso time. Sem custo.</p>
 
         <div class="gift-card">
-          <div class="gift-tag">Cortesia · LCK</div>
+          <div class="gift-tag">🎁 Cortesia · LCK</div>
           <div class="gift-title" id="giftTitle9a">Diagnóstico Financeiro · 1 hora</div>
           <div class="gift-desc" id="giftDesc9a">Você sai dessa call com diagnóstico do seu momento, direcionamento do próximo passo e clareza sobre o que tá te travando.</div>
         </div>
@@ -699,35 +699,35 @@
   const PITCH = {
     milena: {
       call: {
-        lead: 'Você me contou que {situacao}. O problema não é falta de disciplina, é falta de clareza e método. Na sessão, a Vanessa vai te mostrar exatamente o que está te travando de chegar no objetivo que você descreveu pros próximos 12 meses.',
+        lead: 'Você me contou que {situacao}. <strong>O problema não é disciplina, é falta de método.</strong> Na sessão, a Vanessa vai te mostrar <strong>o que está te travando</strong> de chegar no seu objetivo dos próximos 12 meses.',
         giftTitle: 'Diagnóstico Financeiro · 1 hora',
-        giftDesc: 'Você sai dessa call com clareza dos bloqueios reais entre você e o que quer construir. É o caminho pra finalmente dar certo, mesmo se você já tentou antes.'
+        giftDesc: 'Você sai com <strong>clareza dos bloqueios reais</strong> entre você e o que quer construir.'
       },
       whats_sim: {
         title: 'A Jeane vai te chamar',
-        lead: 'Você me contou que {situacao}. Tem um caminho leve pra você sair desse ciclo e começar a fazer o dinheiro sobrar de verdade. A Jeane vai te chamar no WhatsApp pra te apresentar o próximo passo.'
+        lead: 'Você me contou que {situacao}. Tem um caminho leve pra <strong>sair desse ciclo</strong> e começar a <strong>fazer o dinheiro sobrar de verdade</strong>. A Jeane vai te chamar no WhatsApp.'
       },
       whats_talvez: {
         title: 'Vamos tirar suas dúvidas',
-        lead: 'Você me contou que {situacao} e que ainda está com dúvidas. A Jeane vai te chamar no WhatsApp pra entender o que você precisa saber pra tomar a melhor decisão pro seu momento.'
+        lead: 'Você me contou que {situacao} e ainda está com dúvidas. A Jeane vai te chamar pra <strong>entender o que você precisa saber</strong> pra decidir.'
       },
-      sem_cta: 'Suas respostas chegaram. O Caixa Livre é seu primeiro passo pra sair do aperto e respirar financeiramente. Quando quiser conversar sobre o próximo capítulo, me chama.'
+      sem_cta: 'Suas respostas chegaram. Quando quiser <strong>sair do aperto e respirar financeiramente</strong>, é só me chamar.'
     },
     ana_luiza: {
       call: {
-        lead: 'Você me contou que {situacao}. Você ganha bem, mas seu patrimônio não está crescendo no ritmo da sua renda. Na sessão, a Vanessa vai te mostrar exatamente o que está te travando de chegar no objetivo que você descreveu pros próximos 12 meses.',
+        lead: 'Você me contou que {situacao}. <strong>Seu patrimônio não está crescendo no ritmo da sua renda.</strong> Na sessão, a Vanessa vai te mostrar <strong>o que está te travando</strong> de chegar no seu objetivo dos próximos 12 meses.',
         giftTitle: 'Diagnóstico Financeiro · 1 hora',
-        giftDesc: 'Você sai dessa call com leitura clara da brecha entre sua renda atual e o patrimônio que você quer construir. Você não precisa de mais dinheiro, precisa de clareza.'
+        giftDesc: 'Você sai com <strong>leitura clara da brecha</strong> entre sua renda e o patrimônio que quer construir.'
       },
       whats_sim: {
         title: 'A Jeane vai te chamar',
-        lead: 'Você me contou que {situacao}. Existe uma ordem com etapas claras que transforma o que você quer em quanto guardar, onde colocar e quando cada objetivo pode acontecer. A Jeane vai te chamar no WhatsApp pra te apresentar o próximo passo.'
+        lead: 'Você me contou que {situacao}. Existe uma <strong>ordem com etapas claras</strong> que transforma o que você quer em <strong>quanto, onde e quando</strong>. A Jeane vai te chamar no WhatsApp.'
       },
       whats_talvez: {
         title: 'Vamos tirar suas dúvidas',
-        lead: 'Você me contou que {situacao} e que ainda está com dúvidas. A Jeane vai te chamar no WhatsApp pra entender o que você precisa saber. Você não precisa de mais dinheiro, precisa de clareza.'
+        lead: 'Você me contou que {situacao} e ainda está com dúvidas. A Jeane vai te chamar. <strong>Você não precisa de mais dinheiro, precisa de clareza.</strong>'
       },
-      sem_cta: 'Suas respostas chegaram. Quando quiser ver seu patrimônio crescer no ritmo da sua renda, tem um caminho com critério esperando por você. É só me chamar.'
+      sem_cta: 'Suas respostas chegaram. Quando quiser ver seu patrimônio <strong>crescer no ritmo da sua renda</strong>, me chama.'
     }
   };
 
@@ -878,18 +878,20 @@
     const reforco = SITUACAO_REFORCO[situacao] || '';
     const pitch = PITCH[persona];
 
+    // innerHTML é seguro aqui porque os textos vêm de constantes internas (PITCH + SITUACAO_REFORCO).
+    // Nenhum input direto do usuário é injetado nessas frases.
     if (step === '9a') {
-      document.getElementById('lead9a').textContent =
+      document.getElementById('lead9a').innerHTML =
         pitch.call.lead.replace('{situacao}', reforco);
-      document.getElementById('giftTitle9a').textContent = pitch.call.giftTitle;
-      document.getElementById('giftDesc9a').textContent = pitch.call.giftDesc;
+      document.getElementById('giftTitle9a').innerHTML = pitch.call.giftTitle;
+      document.getElementById('giftDesc9a').innerHTML = pitch.call.giftDesc;
     } else if (step === '9b') {
       const variant = interesse === 'talvez' ? pitch.whats_talvez : pitch.whats_sim;
       document.getElementById('title9b').textContent = variant.title;
-      document.getElementById('lead9b').textContent =
+      document.getElementById('lead9b').innerHTML =
         variant.lead.replace('{situacao}', reforco);
     } else if (step === '9c') {
-      document.getElementById('lead9c').textContent = pitch.sem_cta;
+      document.getElementById('lead9c').innerHTML = pitch.sem_cta;
     }
   }
 
