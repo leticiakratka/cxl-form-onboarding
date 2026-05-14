@@ -152,6 +152,14 @@
     color: var(--text);
     margin-bottom: 7px;
   }
+  .field label .hint {
+    display: block;
+    font-size: 12px;
+    color: var(--text-soft);
+    font-weight: 400;
+    margin-top: 3px;
+    line-height: 1.4;
+  }
   .field input, .field select, .field textarea {
     width: 100%;
     padding: 13px 16px;
@@ -446,9 +454,9 @@
         <div class="field-error">Email inválido.</div>
       </div>
       <div class="field" id="f-telefone">
-        <label>Telefone / WhatsApp (com DDD)</label>
-        <input type="tel" name="telefone" placeholder="(00) 00000-0000" inputmode="tel" maxlength="20" autocomplete="tel">
-        <div class="field-error">Telefone inválido.</div>
+        <label>Telefone / WhatsApp <span class="hint">com DDD, ou +código internacional se mora fora do Brasil</span></label>
+        <input type="tel" name="telefone" placeholder="(00) 00000-0000 ou +351 912 345 678" inputmode="tel" maxlength="20" autocomplete="tel">
+        <div class="field-error">Telefone inválido. Use DDD (10-11 dígitos) ou comece com + e o código do país.</div>
       </div>
 
       <div class="btn-row">
